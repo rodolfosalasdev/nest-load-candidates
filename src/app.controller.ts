@@ -13,20 +13,7 @@ export class AppController {
   @Post('/create-candidate')
   async createCandidate(@Body() body: CreateCandidateBody) {
     const { name, surname, file } = body;
-
     await this.createCandidateRepository.create(name, surname, file);
-
-    // const candidate = await this.prisma.candidatesData.create({
-    //   data: {
-    //     id: randomUUID(),
-    //     name,
-    //     surname,
-    //     seniority: file.seniority,
-    //     years: file.years,
-    //     availability: file.availability,
-    //   },
-    // });
-    // return candidate;
   }
 
   @Get('/list-candidates')
