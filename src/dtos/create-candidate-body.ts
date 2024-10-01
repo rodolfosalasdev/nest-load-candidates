@@ -9,11 +9,6 @@ export class CreateCandidateBody {
   @IsNotEmpty()
   surname: string;
 
-  seniority: string;
-
-  years: number;
-
-  availability: boolean;
-
+  @IsNotEmpty()
   file: any;
 }
