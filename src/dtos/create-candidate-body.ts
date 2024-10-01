@@ -2,13 +2,17 @@ import { IsNotEmpty } from 'class-validator';
 
 export class CreateCandidateBody {
   @IsNotEmpty({
-    message: 'The name should not be empty.',
+    message: 'The field name should not be empty.',
   })
   name: string;
 
-  @IsNotEmpty()
+  @IsNotEmpty({
+    message: 'The field surname should not be empty.',
+  })
   surname: string;
 
-  @IsNotEmpty()
+  @IsNotEmpty({
+    message: 'The field file should not be empty.',
+  })
   file: any;
 }
