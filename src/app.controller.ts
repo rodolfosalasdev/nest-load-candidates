@@ -1,12 +1,32 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { PrismaService } from './database/prisma.service';
+import { CreateCandidateBody } from './dtos/create-candidate-body';
+import { CreateCandidateRepository } from './repositories/create-candidate.repository';
 
-@Controller()
+@Controller('/candidates')
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(
+    private createCandidateRepository: CreateCandidateRepository,
+    private prisma: PrismaService,
+  ) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @Post('/create-candidate')
+  async createCandidate(@Body() body: CreateCandidateBody) {
+    const { name, surname, file } = body;
+    await this.createCandidateRepository.create(name, surname, file);
+  }
+
+  @Get('/list-candidates')
+  async getCandidates(): Promise<any> {
+    try {
+      const candidates = await this.prisma.candidatesData.findMany();
+      return candidates;
+    } catch (error) {
+      return {
+        status: 'error',
+        message: 'Something went wrong while fetching candidates.',
+        details: error.message,
+      };
+    }
   }
 }
